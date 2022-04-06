@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 public class reloj : MonoBehaviour
 {
     public GameObject texto;
-    public int segundos = 300;
+    public float segundos = 300;
     public bool disminuyendo = true;
     bool on = true;
+    public GameObject r;
 
     void Start()
     {
@@ -20,7 +21,12 @@ public class reloj : MonoBehaviour
     {
          if(disminuyendo==false && segundos > 0 && on == true)
         {
-            StartCoroutine(crono());
+            disminuyendo = true;
+            segundos -= Time.deltaTime;
+            float minutos = Mathf.FloorToInt(segundos / 60);
+            float displaysegundos = Mathf.FloorToInt(segundos % 60);
+            texto.GetComponent<Text>().text = minutos + ":" + displaysegundos;
+            disminuyendo = false;
         } 
         if (segundos == 0)
         {
@@ -47,19 +53,18 @@ public class reloj : MonoBehaviour
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
         }
+        if (c.gameObject.CompareTag("ci_i"))
+        {
+            gameObject.transform.position = r.transform.position;
+        }
     }
 
 
-        IEnumerator crono()
-    {
-        disminuyendo = true;
-        yield return new WaitForSeconds(1);
-        segundos -= 1;
-        float minutos = Mathf.FloorToInt(segundos / 60);
-        float displaysegundos = Mathf.FloorToInt(segundos % 60);
-        texto.GetComponent<Text>().text = minutos+":"+displaysegundos;
-        disminuyendo = false;
-    }
+   
+     
+     
+        
+ 
 
     
 }

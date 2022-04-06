@@ -11,6 +11,8 @@ public class fps : MonoBehaviour
     float xRotation;
     float yRotation;
 
+    public bool movi = true;
+
     private Rigidbody rb;
 
     // Start is called before the first frame update
@@ -27,9 +29,12 @@ public class fps : MonoBehaviour
     void Update()
     {
         mirar();
-        moverp();
-        
-
+        if (movi == true)
+            moverp();
+        else
+        {
+            movera(); 
+        }
     }
 
     void mirar()
@@ -41,7 +46,7 @@ public class fps : MonoBehaviour
         xRotation -= mouseY;
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        Camera.main.transform.localRotation = Quaternion.Euler(xRotation, yRotation+180, 0);
+        Camera.main.transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0);
 
     }
 
@@ -52,4 +57,22 @@ public class fps : MonoBehaviour
         Vector3 wishDirection = (forward * axis.x + Camera.main.transform.right * axis.y + Vector3.up * rb.velocity.y);
         rb.velocity = wishDirection;
     }
+
+    public void cb()
+    {
+        movi = false;
+    }
+
+    public void ca()
+    {
+        movi = true;
+    }
+
+    void movera()
+    {
+        Vector3 forward = new Vector3(-Camera.main.transform.right.z, 0.0f, Camera.main.transform.right.x);
+        rb.velocity = forward * speed; 
+    }
+
+
 }
